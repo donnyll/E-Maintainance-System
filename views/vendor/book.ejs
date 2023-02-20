@@ -1,0 +1,26 @@
+<body>
+	<p>Will be loop</p>
+	<div>
+		<table>
+			<tr>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Problem</th>
+				<th>Address</th>
+			</tr>
+			<% for (let book of data) { for (let cust of data1) {%>
+			<tr>
+				<td><%= data1.name %></td>
+				<td><%= data1.email %></td>
+				<td><%= book.info %></td>
+				<td><%= data1.address %></td>
+			</tr>
+			<% } } %>
+		</table>
+	</div>
+</body>
+<% if(message.message) { %>
+<script>
+	alert("<%= message.message %>");
+</script>
+<% } %>

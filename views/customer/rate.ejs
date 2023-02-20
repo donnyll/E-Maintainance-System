@@ -1,0 +1,37 @@
+<%- include ("../partials/_headercust") -%> 
+<body>
+	<div>
+		<div>
+			<h1>Rating page</h1>
+			<p><%= data.custEmail %></p>
+			<p><%= data.problem %></p>
+			<p><%= data._id %></p>
+			<form method="post" action="/api/customer/rate/<%= data._id %>">
+				<table>
+					<tr>
+						<td>Rate the plumber</td>
+						<td>1 star</td>
+						<td>2 star</td>
+						<td>3 star</td>
+						<td>4 star</td>
+						<td>5 star</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><input name="rating" type="radio" value="1" /></td>
+						<td><input name="rating" type="radio" value="2" /></td>
+						<td><input name="rating" type="radio" value="3" /></td>
+						<td><input name="rating" type="radio" value="4" /></td>
+						<td><input name="rating" type="radio" value="5" /></td>
+					</tr>
+				</table>
+				<button type="submit">Submit</button>
+			</form>
+		</div>
+	</div>
+</body>
+<% if(message.message) { %>
+<script>
+	alert("<%= message.message %>");
+</script>
+<% } %>

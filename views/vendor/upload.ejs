@@ -1,0 +1,11 @@
+<form action="/api/vendor/upload" method="POST" enctype="multipart/form-data">
+    <input type="hidden" value="<%=email%>" name="vendorEmail">
+    <div>
+        <label for="image">Upload Image</label>
+        <input type="file" id="myImage"
+               name="myImage" value="" required>
+    </div>
+    <div>
+        <button type="submit">Submit</button>
+    </div>
+</form>

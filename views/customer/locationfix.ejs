@@ -1,0 +1,176 @@
+<%- include ("../partials/_headermap") -%> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map</title>
+
+    <!-- leaflet css  -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@v0.74.0/dist/L.Control.Locate.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.4/dist/L.Control.Locate.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+
+    <!-- leaflet js  -->
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.0/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@v0.74.0/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
+</head>
+
+<body>
+    <style>
+        /* body {
+            margin: 0;
+            padding: 0;
+        } */
+
+        #map {
+            width: 100%;
+            height: 80vh;
+            margin: 0;
+        }
+    </style>
+
+    <div class="dummy-text">
+        <div id="map"></div>
+    </div>
+</body>
+
+<style>
+    img.huechange { filter: hue-rotate(120deg); }
+</style>
+
+
+<% for(let vendor of data){ %> 
+<script>
+/* ==================================================
+|                 MAP SIZE & ZOOM
+=====================================================*/
+
+    var map = L.map('map').setView([3.0733, 101.5185], 11);
+    
+
+/* ==================================================
+|                 MAP VARIATION
+=====================================================*/
+
+    //osm layer
+    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+    //osm.addTo(map);
+
+    //google street
+    googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+    maxZoom: 20,
+    subdomains:['mt0','mt1','mt2','mt3']
+    });
+    googleStreets.addTo(map)
+
+    //google satellite
+     googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+    maxZoom: 20,
+    subdomains:['mt0','mt1','mt2','mt3']
+    });
+    // googleSat.addTo(map)
+ 
+/* ==================================================
+|                 LAYER CONTROL 
+=====================================================*/
+
+    //layer controller
+    var baseMaps = {
+    "OSM": osm,
+    'Google Street': googleStreets,
+    "Google Satellite": googleSat
+    };
+
+    L.control.layers(baseMaps).addTo(map);
+
+
+/* ==================================================
+|                 CURENT LOCATION USER
+=====================================================*/
+
+    if(!navigator.geolocation){
+        console.log("Your Browser doesn't suppoert geolocation feature!")
+    }else{
+        navigator.geolocation.getCurrentPosition(getPosition)
+    }
+    
+    function getPosition(position){
+        var lat = position.coords.latitude
+        var long = position.coords.longitude
+        var accuracy = position.coords.accuracy
+
+        var marker = L.marker([lat,long]).addTo(map)
+        var circle = L.circle([lat,long],{radius: accuracy}).addTo(map)
+
+       
+
+ // <!-- ==================================================
+// |                 DATA VENDOR
+// ===================================================== -->
+
+        var lat1 = "<%= vendor.lat %>";
+        var long1 = "<%= vendor.long %>";
+        var name = "<%= vendor.companyname %>";
+
+
+ // <!-- ==================================================
+// |                 ROUTE DIRECTION
+// ===================================================== -->
+
+        L.Routing.control({
+        waypoints: [
+            L.latLng([lat1,long1]),
+            L.latLng([lat, long])
+        ]}).addTo(map);
+
+ // <!-- ==================================================
+// |                 CHANGE ICON
+// ===================================================== -->
+
+        var greenIcon = L.icon({
+        iconUrl: '../../assets/images/img1.jpg',
+        // shadowUrl: 'leaf-shadow.png',
+
+        iconSize:     [70, 95], // size of the icon
+        shadowSize:   [50, 64], // size of the shadow
+        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+        shadowAnchor: [4, 62],  // the same for the shadow
+        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+    });
+
+ // <!-- ==================================================
+// |                 MAKER VENDOR
+// ===================================================== -->        
+
+        L.marker([lat1,long1]).addTo(map)
+        var marker = L.marker([lat1,long1])
+        // console.log(lat)
+        marker.bindPopup
+            (" <a href = '/customer/cbook/<%=vendor._id%> '> <%-vendor.companyname %><br><%-vendor.companyphone %></a>")
+        .addTo(map);
+        
+    }
+
+     
+/* ==================================================
+|                 SEARCH
+=====================================================*/
+    L.Control.geocoder().addTo(map);
+
+</script>
+<% } %>
+
+<% if(message.message) { %>
+    <script>
+        alert("<%= message.message %>");
+    </script>
+<% } %>

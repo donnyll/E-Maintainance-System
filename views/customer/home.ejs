@@ -1,0 +1,255 @@
+<%- include ("../partials/_headerhome") -%>
+
+<head>
+	<meta charset="UTF-8">
+	<title>E-MAINTENANCE SYSTEM</title>
+	<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css'>
+	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css'>
+	<link rel="stylesheet" href="./style.css">
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+		<section class="section-products">
+
+			<div class="container">
+			
+
+				<div class="container mt-5 mb-5">
+					<div class="d-flex justify-content-center row">
+						<div class="col-md-6">
+							<% if(locals.data){ %>
+							<% for(let vendor of data){%>
+							<div class="row p-2 bg-white border rounded">
+								<div style="text-align:left" class="col-md-6 mt-1">
+									<h5><%= vendor.companyname %></h5>
+									<div class="mt-1 mb-1 spec-1">
+										<span class="dot"></span><span><%= vendor.email %></span> <br>
+										<span class="dot"></span><span><%= vendor.phone %></span> <br>
+										<span class="dot"></span><span><%= vendor.address %><br></span>
+									</div>
+								</div>
+								<div class="align-items-center align-content-center col-md-3 border-left mt-1">
+									<h6 class="text-success">More Info</h6>
+									<div class="d-flex flex-column mt-4">
+										<form method="get" action="/customer/cbook/<%= vendor._id %>">
+											<button class="btn btn-primary btn-sm" type="submit"> Details</button> <br>
+										</form> <br>
+										<form method="get" action="/customer/locationfix/<%= vendor._id %>">
+											<button class="btn btn-warning btn-sm" type="submit"> Location</button>
+										</form>
+										
+									</div>
+								</div>
+							</div> <br>
+							<%}%>
+							<%}%>
+						</div>
+					</div>
+				  </div>
+
+		</div>
+
+	</section>
+
+
+	<% if(message.message) { %>
+	<script>
+		alert("<%= message.message %>");
+	</script>
+	<% } %>
+</body>
+
+<!--==================================================
+|                    CSS
+===================================================== --> 
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+body{
+	background:rgb(0, 0, 0);
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    background: #000000;
+	
+}
+.ratings i{
+	font-size: 16px;color: red
+}
+
+.dot{
+  height: 7px;
+  width: 7px;
+  margin-left: 6px;
+  margin-right: 6px;
+  margin-top: 3px;
+  background-color: blue;
+  border-radius: 50%;
+  display: inline-block
+}
+
+
+.spec-1{
+	color: #938787;
+	font-size: 15px
+}
+h5{
+	font-weight: 400
+}
+.para{font-size: 16px}
+
+	body {
+		font-family: "Poppins", sans-serif;
+		color: #444444;
+	}
+	a,
+	a:hover {
+		text-decoration: none;
+		color: inherit;
+	}
+	.section-products {
+		padding: 80px 0 54px;
+	}
+	.section-products .header {
+		margin-bottom: 50px;
+	}
+	.section-products .header h3 {
+		font-size: 1rem;
+		color: #fe302f;
+		font-weight: 500;
+	}
+	.section-products .header h2 {
+		font-size: 2.2rem;
+		font-weight: 400;
+		color: #ffffff; 
+	}
+	.section-products .single-product {
+		margin-bottom: 26px;
+	}
+	.section-products .single-product .part-1 {
+		position: relative;
+		height: 290px;
+		max-height: 290px;
+		margin-bottom: 20px;
+		overflow: hidden;
+	}
+	.section-products .single-product .part-1::before {
+			position: absolute;
+			content: "";
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: -1;
+			transition: all 0.3s;
+	}
+
+	.section-products .single-product:hover .part-1::before {
+			transform: scale(1.2,1.2) rotate(5deg);
+	}
+
+	.section-products #product-1 .part-1::before {
+		background: url("https://i.ibb.co/L8Nrb7p/1.jpg") no-repeat center;
+		background-size: cover;
+			transition: all 0.3s;
+	}
+
+	.section-products #product-2 .part-1::before {
+		background: url("https://i.ibb.co/cLnZjnS/2.jpg") no-repeat center;
+		background-size: cover;
+	}
+
+	.section-products #product-3 .part-1::before {
+		background: url("https://i.ibb.co/L8Nrb7p/1.jpg") no-repeat center;
+		background-size: cover;
+	}
+
+	.section-products #product-4 .part-1::before {
+		background: url("https://i.ibb.co/cLnZjnS/2.jpg") no-repeat center;
+		background-size: cover;
+	}
+
+	.section-products .single-product .part-1 .discount,
+	.section-products .single-product .part-1 .new {
+		position: absolute;
+		top: 15px;
+		left: 20px;
+		color: #ffffff;
+		background-color: #fe302f;
+		padding: 2px 8px;
+		text-transform: uppercase;
+		font-size: 0.85rem;
+	}
+
+	.section-products .single-product .part-1 .new {
+		left: 0;
+		background-color: #444444;
+	}
+
+	.section-products .single-product .part-1 ul {
+		position: absolute;
+		bottom: -41px;
+		left: 20px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		opacity: 0;
+		transition: bottom 0.5s, opacity 0.5s;
+	}
+
+	.section-products .single-product:hover .part-1 ul {
+		bottom: 30px;
+		opacity: 1;
+	}
+
+	.section-products .single-product .part-1 ul li {
+		display: inline-block;
+		margin-right: 4px;
+	}
+
+	.section-products .single-product .part-1 ul li a {
+		display: inline-block;
+		width: 40px;
+		height: 40px;
+		line-height: 40px;
+		background-color: #ffffff;
+		color: #444444;
+		text-align: center;
+		box-shadow: 0 2px 20px rgb(50 50 50 / 10%);
+		transition: color 0.2s;
+	}
+
+	.section-products .single-product .part-1 ul li a:hover {
+		color: #fe302f;
+	}
+
+	.section-products .single-product .part-2 .product-title {
+		font-size: 1rem;
+	}
+
+	.section-products .single-product .part-2 h4 {
+		display: inline-block;
+		font-size: 1rem;
+	}
+
+	.section-products .single-product .part-2 .product-old-price {
+		position: relative;
+		padding: 0 7px;
+		margin-right: 2px;
+		opacity: 0.6;
+	}
+
+	.section-products .single-product .part-2 .product-old-price::after {
+		position: absolute;
+		content: "";
+		top: 50%;
+		left: 0;
+		width: 100%;
+		height: 1px;
+		background-color: #444444;
+		transform: translateY(-50%);
+	}
+</style>
